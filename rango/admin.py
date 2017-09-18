@@ -4,11 +4,10 @@ from .models import Category, Page
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
-
+    prepopulated_fields = {'slug':('name', )}
 
 class PageAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'url', 'category')
 
 
 admin.site.register(Category, CategoryAdmin)

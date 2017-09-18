@@ -5,15 +5,20 @@
         <title>Rango</title>
     </head>
     <body>
-        <h1>Rango says....</h1>
+        <h1>Rango says....Hello</h1>
         <div>
-            hey there partner!<br />
-            <strong>{{ boldmessage }}</strong><br />
+          {% if category_list %}
+          <ul>
+          {% for category in category_list %}
+            <li><a href="{% url 'rango:detail' category.slug %}">{{ category.name }}</a> </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>there is no category</p>
+          {% endif %}
         </div>
         <div>
             <a href="/rango/about/">About</a><br />
-            <img src="{% static "images/MAC-1.png" %}"
-                alt="Picture of Rango" />
         </div>
     </body>
 </html>
