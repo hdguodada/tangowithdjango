@@ -10,7 +10,7 @@
           {% if category_list %}
           <ul>
           {% for category in category_list %}
-            <li><a href="{% url 'rango:detail' category.slug %}">{{ category.name }}</a> </li>
+            <li><a href="{% url 'rango:category' category.slug %}">{{ category.name }}</a> </li>
             {% endfor %}
           </ul>
           {% else %}
@@ -18,7 +18,8 @@
           {% endif %}
         </div>
         <div>
-            <a href="/rango/about/">About</a><br />
+            <a href="{% url 'rango:about' %}">About</a><br />
+            <a href="{% url 'rango:add_category' %}">Add a New Category</a><br />
         </div>
     </body>
 </html>

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Category, Page
 from django.views.generic.base import View
+from rango.forms import CategoryForm, PageForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 # Create your views here.
 
 class IndexView(View):
@@ -37,3 +40,62 @@ class DetailView(View):
             contex_dict['category'] = None
             pass
         return render(request, 'rango/category.html', contex_dict)
+
+
+
+class Add_category(View):
+    form = CategoryForm()
+    def get(self, request):
+        return render(request, 'rango/add_category.html', {
+            'form': self.form,
+        })
+
+
+    def post(self, request):
+        form = CategoryForm(request.POST)
+        # provide a valid form?
+        if form.is_valid():
+            # Save the new category to the database
+            form.save(commit=True)
+            # Now the category is saved.
+            # we could give a confirmation message
+            # but since the most recent category added is on the page.
+            # Then we can direct the user back to the index page.
+            return HttpResponseRedirect(reverse('rango:index'))
+        else:
+            # the supplied form contained errors
+            # just print them to the terminal
+            print(form.errors)
+            return render(request, 'rango/add_category.html', {
+                'form': form,
+            })
+
+
+class Add_Page(View):
+    def get(self, request, category_name_slug):
+        form = PageForm()
+        category = Category.objects.get(slug=category_name_slug)
+        return render(request, 'rango/add_page.html', {
+            'form': form,
+            'category': category,
+        })
+
+    def post(self, request, category_name_slug):
+        try:
+            cat = Category.objects.get(slug=category_name_slug)
+            pass
+        except Category.DoesNotExist:
+            cat = None
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                return HttpResponseRedirect(reverse('rango:category', args=(cat.slug,)))
+            else:
+                print('111')
+                return render(request, 'rango/add_page.html', {
+                    'form': form,
+                })
