@@ -4,6 +4,7 @@ from django.views.generic.base import View
 from rango.forms import CategoryForm, PageForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from rango.forms import UserProfileForm, UserForm
 # Create your views here.
 
 class IndexView(View):
@@ -99,3 +100,35 @@ class Add_Page(View):
                 return render(request, 'rango/add_page.html', {
                     'form': form,
                 })
+
+
+class RegisterView(View):
+    registered = False
+    def get(self, request):
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+        return render(request, 'rango/register.html', {
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
+    def post(self, request):
+        self.registered = False
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid and profile_form.is_valid():
+            # save the user's form data to the database
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+                profile.save()
+                registered = True
+                pass
+            else:
+                print(user_form.errors, profile_form.errors)
+                pass
