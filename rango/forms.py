@@ -42,28 +42,17 @@ class PageForm(forms.ModelForm):
         model = Page
         'hiding the foreign key'
         exclude = ('category', 'views')
-        pass
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
-        if url and not url.startswith('http://'):
-            url = 'http://' + url
-            cleaned_data['url'] = url
-        return cleaned_data
 
 
-
-class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
 
 
 class UserProfileForm(forms.ModelForm):
-
+    password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = UserProfile
-        fields = ('website', 'picture')
+        fields = ('username', 'email', 'password', 'website', 'picture')
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label='用户名', max_length=20)
+    password = forms.CharField(label='密码', max_length=20)

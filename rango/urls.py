@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import IndexView, AboutView, DetailView, Add_category, Add_Page, RegisterView
+from .views import IndexView, AboutView, DetailView, Add_category, Add_Page, RegisterView, LoginView
 
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'add_category/$', Add_category.as_view(), name='add_category'),
     url(r'add_page/(?P<category_name_slug>[\w\-]+)/$', Add_Page.as_view(), name='add_page'),
     url(r'register/$', RegisterView.as_view(), name='register'),
+    url(r'login/$', LoginView.as_view(), name='login')
 ]

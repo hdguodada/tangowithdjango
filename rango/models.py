@@ -1,15 +1,14 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class UserProfile(User):
-    user = models.OneToOneField(User)
+class UserProfile(AbstractUser):
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
 
 class Category(models.Model):

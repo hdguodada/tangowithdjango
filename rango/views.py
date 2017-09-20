@@ -2,10 +2,11 @@ from django.shortcuts import render
 from .models import Category, Page
 from django.views.generic.base import View
 from rango.forms import CategoryForm, PageForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from rango.forms import UserProfileForm, UserForm
-# Create your views here.
+from rango.forms import UserProfileForm, LoginForm
+from django.contrib.auth import authenticate, login, logout
+#Create your views here.
 
 class IndexView(View):
     # Query database for a list of all categoryies currently stored
@@ -35,11 +36,9 @@ class DetailView(View):
             pages = Page.objects.filter(category=category)
             contex_dict['pages'] = pages
             contex_dict['category'] = category
-            pass
         except Category.DoesNotExist:
             contex_dict['pages'] = None
             contex_dict['category'] = None
-            pass
         return render(request, 'rango/category.html', contex_dict)
 
 
@@ -102,33 +101,63 @@ class Add_Page(View):
                 })
 
 
+
 class RegisterView(View):
-    registered = False
     def get(self, request):
-        user_form = UserForm()
         profile_form = UserProfileForm()
         return render(request, 'rango/register.html', {
-            'user_form': user_form,
             'profile_form': profile_form,
         })
     def post(self, request):
-        self.registered = False
-        user_form = UserForm(request.POST)
+        registered = False # A boolean value to tell tempalte whether the registion was succesfull,
         profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid and profile_form.is_valid():
+        if profile_form.is_valid():
             # save the user's form data to the database
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
             profile = profile_form.save(commit=False)
-            profile.user = user
-
+            # hash the password
+            profile.set_password(profile.password)
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
-                profile.save()
-                registered = True
-                pass
+            # save the user instance
+            profile.save()
+            # update the variable
+            registered = True
+            return render(request, 'rango/register.html', {
+                'registered': registered,
+                'profile_form': profile_form,
+            })
+        else:
+            print(profile_form.errors)
+            return render(request, 'rango/register.html', {
+                'registered': registered,
+                'profile_form': profile_form,
+            })
+
+
+__Add_Login_Functionality__ = """
+1. create a login in view to handle user credentials
+2. create a login template to display the login form
+3. map the login view to a url
+4. provide a link to login from the index page
+"""
+class LoginView(View):
+    def get(self, request):
+        login_form = LoginForm
+        return render(request, 'rango/login.html', {
+            'login_form': login_form,
+        })
+
+    def post(self, request):
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('rango:index'))
+                else:
+                    return HttpResponse('Your account is disable')
             else:
-                print(user_form.errors, profile_form.errors)
-                pass
+                return
