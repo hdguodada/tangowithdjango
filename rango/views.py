@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from rango.forms import UserProfileForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 #Create your views here.
 
 class IndexView(View):
@@ -43,7 +44,8 @@ class DetailView(View):
 
 
 
-class Add_category(View):
+class Add_category(LoginRequiredMixin, View):
+    login_url = 'rango:login'
     form = CategoryForm()
     def get(self, request):
         return render(request, 'rango/add_category.html', {
@@ -71,7 +73,8 @@ class Add_category(View):
             })
 
 
-class Add_Page(View):
+class Add_Page(LoginRequiredMixin, View):
+    login_url = 'rango:login'
     def get(self, request, category_name_slug):
         form = PageForm()
         category = Category.objects.get(slug=category_name_slug)
@@ -160,4 +163,13 @@ class LoginView(View):
                 else:
                     return HttpResponse('Your account is disable')
             else:
-                return
+                return HttpResponse('Invalid login details supplied.')
+            pass
+        else:
+            return render(request, 'rango/login.html', {})
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse('rango:index'))

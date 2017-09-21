@@ -1,12 +1,7 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Rango</title>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <div>
-      <h1>
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<h1>
         {% if category.name %}
         <strong> {{ category.name }} </strong>
       </h1>
@@ -23,6 +18,4 @@
         the category is not exist!
         {% endif %}
         <a href="{% url 'rango:add_page' category.slug %}">Add a New Page</a><br />
-    </div>
-  </body>
-</html>
+{% endblock %}
