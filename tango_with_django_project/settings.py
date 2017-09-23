@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rango',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,9 @@ STATICFILES_DIRS = [
 
 
 AUTH_USER_MODEL = 'rango.UserProfile'
+
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_LOGIN = True
+LOGIN_REDIRECT_URL = 'rango:index'
+LOGIN_URL = '/accounts/login/'
