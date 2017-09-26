@@ -1,13 +1,30 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
-{% block body_block %}
-  {% if category_list %}
-  <ul>
-  {% for category in category_list %}
-    <li><a href="{% url 'rango:category' category.slug %}">{{ category.name }}</a> </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>there is no category</p>
-  {% endif %}
+{% block block_jum %}
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Hello, world!</h1>
+    <p>Rango is my first django project , so it's not awesome, let's learn together</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+  </div>
+</div>
 {% endblock %}
+    {% block block_container %}
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Most Liked Categories</h2>
+        </div>
+        <div class="col-md-6">
+          <h2>Most Liked Pages</h2>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>YUMO 2017</p>
+      </footer>
+    </div> <!-- /container -->
+    {% endblock %}

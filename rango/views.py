@@ -173,3 +173,9 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('rango:index'))
+
+
+
+class BootStrapView(View):
+    def get(self, request):
+        return render(request, 'rango/base.html')
