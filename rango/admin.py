@@ -13,7 +13,7 @@ class PageAdmin(admin.ModelAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['username', 'website', 'picture']
+    list_display = ['username', 'website', 'picture', 'email']
 
 
 

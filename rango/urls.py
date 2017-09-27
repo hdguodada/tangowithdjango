@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from .views import IndexView, AboutView, DetailView, Add_category, Add_Page, RegisterView, LoginView, LogoutView
+from .views import BootStrapView
 
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     url(r'register/$', RegisterView.as_view(), name='register'),
     url(r'login/$', LoginView.as_view(), name='login'),
     url(r'logout/$', LogoutView.as_view(), name='logout'),
+    url(r'base/$', BootStrapView.as_view(), name='base')
 ]

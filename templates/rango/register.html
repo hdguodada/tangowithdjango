@@ -1,22 +1,26 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Rango</title>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <h1>Register with Rango</h1>
-    {% if registered %}
-    Rango Says: <strong>thank you for registering</strong>
-    <a href="{% url 'rango:index' %}">Return to the Homepage</a><br />
-    {% else %}
-    Rango says: <strong>register here!</strong><br />
-    <form method="post" id="profile_form" action="{% url 'rango:register' %}"
-    enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ profile_form.as_p }}
-      <input type="submit" name="submit" value="Register" />
-    </form>
-    {% endif %}
-  </body>
-</html>
+{% extends 'rango/base_login.html' %}
+{% load staticfiles %}
+{% block container %}
+<div class="container">
+
+  <form class="form-signin">
+    <h2 class="form-signin-heading">Please Rigster Here</h2>
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="text">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
+    <label for="inputUrl" class="sr-only">Website</label>
+    <input id="inputUrl" class="form-control" placeholder="Website" required="" type="url">
+    <label for="inputImage" class="sr-only">Image</label>
+    <input id="inputImage" class="form-control" placeholder="Image" required="" type="img">
+    <div class="checkbox">
+      <label>
+        <input value="remember-me" type="checkbox"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+
+</div> <!-- /container -->
+{% endblock %}
+

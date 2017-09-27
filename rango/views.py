@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Category, Page
+from .models import Category, Page, UserProfile
 from django.views.generic.base import View
 from rango.forms import CategoryForm, PageForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -7,7 +7,10 @@ from django.urls import reverse
 from rango.forms import UserProfileForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.backends import ModelBackend
 #Create your views here.
+
+
 
 class IndexView(View):
     # Query database for a list of all categoryies currently stored
@@ -173,3 +176,9 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('rango:index'))
+
+
+
+class BootStrapView(View):
+    def get(self, request):
+        return render(request, 'rango/base.html')

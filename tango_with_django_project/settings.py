@@ -124,11 +124,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-
+# 扩展用户模型
 AUTH_USER_MODEL = 'rango.UserProfile'
 
-REGISTRATION_OPEN = True
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_LOGIN = True
-LOGIN_REDIRECT_URL = 'rango:index'
-LOGIN_URL = '/accounts/login/'
+# 支持邮箱登录
+# AUTHENTICATION_BACKENDS = ('rango.views.CustomBackEnds',)
