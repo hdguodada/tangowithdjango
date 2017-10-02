@@ -117,27 +117,30 @@ class RegisterView(View):
     def post(self, request):
         registered = False # A boolean value to tell tempalte whether the registion was succesfull,
         profile_form = UserProfileForm(request.POST)
-        if profile_form.is_valid():
-            # save the user's form data to the database
-            profile = profile_form.save(commit=False)
-            # hash the password
-            profile.set_password(profile.password)
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            # save the user instance
-            profile.save()
-            # update the variable
-            registered = True
-            return render(request, 'rango/register.html', {
-                'registered': registered,
-                'profile_form': profile_form,
-            })
-        else:
-            print(profile_form.errors)
-            return render(request, 'rango/register.html', {
-                'registered': registered,
-                'profile_form': profile_form,
-            })
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        if password == password2:
+            if profile_form.is_valid():
+                # save the user's form data to the database
+                profile = profile_form.save(commit=False)
+                # hash the password
+                profile.set_password(profile.password)
+                if 'picture' in request.FILES:
+                    profile.picture = request.FILES['picture']
+                # save the user instance
+                profile.save()
+                # update the variable
+                registered = True
+                return render(request, 'rango/login.html', {
+                    'registered': registered,
+                    'profile_form': profile_form,
+                })
+            else:
+                print(profile_form.errors)
+                return render(request, 'rango/register.html', {
+                    'registered': registered,
+                    'profile_form': profile_form,
+                })
 
 
 __Add_Login_Functionality__ = """

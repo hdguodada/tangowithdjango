@@ -1,25 +1,41 @@
-{% extends 'rango/base_login.html' %}
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
-{% block container %}
-<div class="container">
-
-  <form class="form-signin">
-    <h2 class="form-signin-heading">Please Rigster Here</h2>
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="text">
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
-    <label for="inputUrl" class="sr-only">Website</label>
-    <input id="inputUrl" class="form-control" placeholder="Website" required="" type="url">
-    <label for="inputImage" class="sr-only">Image</label>
-    <input id="inputImage" class="form-control" placeholder="Image" required="" type="img">
-    <div class="checkbox">
-      <label>
-        <input value="remember-me" type="checkbox"> Remember me
-      </label>
+{% block main %}
+<div class="container-fluid">
+<div class="jumbotron">
+    <h1 class="display-3">Register With Django</h1>
+  <form role="form" method="post" action=".">
+    {% csrf_token %}
+    <div class="form-group">
+      <p class="required">
+        <label class="required" for="id_username">Please enter a username:</label>
+        <input type="text" class="form-control" id="id_username" maxlength="30" name="username" value="" />
+      </p>
+      <p class="required">
+        <label class="required" for="id_email">Please enter a email:</label>
+        <input type="email" class="form-control" id="id_email" maxlength="30" name="email" value="" />
+      </p>
+      <p class="required">
+        <label class="required" for="id_password">Please enter a password1:</label>
+        <input type="password" class="form-control" id="id_password" maxlength="30" name="password" value="" />
+      </p>
+      <p class="required">
+        <label class="required" for="id_password2">Please enter a password2:</label>
+        <input type="password" class="form-control" id="id_password2" maxlength="30" name="password2" value="" />
+      </p>
+      <p class="">
+        <label class="" for="id_website">Please enter a website:</label>
+        <input type="url" class="form-control" id="id_website" maxlength="30" name="url" value="" />
+      </p>
+      <p class="">
+        <label class="" for="id_img">Please enter your img:</label>
+        <input type="file" class="form-control" id="id_img" maxlength="30" name="picture" value="" />
+      </p>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-default" type="submit">Submit</button>
   </form>
+
+</div>
 
 </div> <!-- /container -->
 {% endblock %}
