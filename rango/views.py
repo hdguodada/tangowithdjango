@@ -18,8 +18,10 @@ class IndexView(View):
     # place the list in our context_dict will passed to the template engine
     def get(self, request):
         category_list = Category.objects.order_by('-likes')[0:5]
+        most_view_pages = Page.objects.order_by('-views')[:5]
         context_dict = {
-            'category_list': category_list,
+            'most_view_categories': category_list,
+            'most_view_pages': most_view_pages,
         }
         return render(request, 'rango/index.html', context_dict)
 
