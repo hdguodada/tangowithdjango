@@ -60,7 +60,9 @@
       <div class="row">
         {% block sidebar %}
         <div class="col-sm-3 col-md-2 sidebar">
-          {% get_category_list %}
+          {%  for cat in get_category_list  %}
+          {{ cat.name }}
+          {% endfor %}
 
             <ul class="nav nav-pills flex-column">
 		        <li class="nav-item">Type to find a category</li>
